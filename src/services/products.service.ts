@@ -45,35 +45,35 @@ export class ProductsService {
 
     let searchQuery: _SearchQuery | undefined;
 
-    // if (storeKey || keyword) {
-    //   let storeQueryExpression: _SearchQueryExpression | undefined;
-    //   let fullTextQueryExpression: _SearchQueryExpression | undefined;
+    if (storeKey || keyword) {
+      let storeQueryExpression: _SearchQueryExpression | undefined;
+      let fullTextQueryExpression: _SearchQueryExpression | undefined;
 
-    //   if (storeKey) {
-    //     const storeId = await this.getStoreId(storeKey!);
-    //     storeQueryExpression = {
-    //       exact: { field: 'stores', value: storeId },
-    //     };
-    //   }
+      if (storeKey) {
+        const storeId = await this.getStoreId(storeKey!);
+        storeQueryExpression = {
+          exact: { field: 'stores', value: storeId },
+        };
+      }
 
-    //   if (keyword) {
-    //     fullTextQueryExpression = {
-    //       fullText: {
-    //         field: 'name',
-    //         language: locale ?? 'en-US',
-    //         value: keyword,
-    //         mustMatch: 'any',
-    //         caseInsensitive: true,
-    //       },
-    //     };
-    //   }
+      if (keyword) {
+        fullTextQueryExpression = {
+          fullText: {
+            field: 'name',
+            language: locale ?? 'en-US',
+            value: keyword,
+            mustMatch: 'any',
+            caseInsensitive: true,
+          },
+        };
+      }
 
-    //   if (storeQueryExpression && fullTextQueryExpression) {
-    //     searchQuery = { and: [storeQueryExpression, fullTextQueryExpression] };
-    //   } else {
-    //     searchQuery = storeQueryExpression || fullTextQueryExpression;
-    //   }
-    // }
+      if (storeQueryExpression && fullTextQueryExpression) {
+        searchQuery = { and: [storeQueryExpression, fullTextQueryExpression] };
+      } else {
+        searchQuery = storeQueryExpression || fullTextQueryExpression;
+      }
+    }
 
     const facets = useFacets ? createFacets(locale) : undefined;
 

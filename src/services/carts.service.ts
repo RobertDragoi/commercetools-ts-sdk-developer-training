@@ -31,9 +31,19 @@ export class CartsService {
     const { storeKey, sessionId, sku, quantity, currency, country } =
       cartDetails;
 
-    let cartDraft: CartDraft;
+    let cartDraft: CartDraft = {
+      currency,
+      anonymousId: sessionId,
+      country,
+      lineItems: [{ sku, quantity }],
+    };
 
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .inStoreKeyWithStoreKeyValue({ storeKey })
+      .carts()
+      .post({ body: cartDraft })
+      .execute()
+      .then((response) => response.body);
   }
 
   async addLineItemsToCart(lineItemsDetails: LineItemsAddDto): Promise<Cart> {
@@ -51,9 +61,22 @@ export class CartsService {
 
     const cartUpdateActions: CartUpdateAction[] = [];
 
-    let addLineItemUpdateAction: CartAddLineItemAction;
+    let addLineItemUpdateAction: CartAddLineItemAction = {
+      action: 'addLineItem',
+      sku,
+      quantity,
+    };
+    cartUpdateActions.push(addLineItemUpdateAction);
 
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .inStoreKeyWithStoreKeyValue({ storeKey })
+      .carts()
+      .withId({ ID: cart.id })
+      .post({
+        body: { version: cartVersion, actions: cartUpdateActions },
+      })
+      .execute()
+      .then((response) => response.body);
   }
 
   async applyDiscountCodeToCart(
