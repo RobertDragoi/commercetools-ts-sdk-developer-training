@@ -24,7 +24,12 @@ export class ShippingMethodsService {
   }
 
   getShippingMethodByKey(key: string): Promise<ShippingMethod> {
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .shippingMethods()
+      .withKey({ key })
+      .get()
+      .execute()
+      .then((response) => response.body);
   }
 
   checkShippingMethodExists(key: string): Promise<void> {
@@ -47,7 +52,12 @@ export class ShippingMethodsService {
   getShippingMethodsByLocation(
     countryCode: string,
   ): Promise<ShippingMethodPagedQueryResponse> {
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .shippingMethods()
+      .matchingLocation()
+      .get({ queryArgs: { country: countryCode } })
+      .execute()
+      .then((response) => response.body);
   }
 
   getMatchingShippingMethods(
