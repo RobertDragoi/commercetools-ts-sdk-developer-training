@@ -18,7 +18,7 @@ export class ShippingMethodsService {
   getAllShippingMethods(): Promise<ShippingMethodPagedQueryResponse> {
     return this.apiRoot
       .shippingMethods()
-      .get()
+      .get({ queryArgs: { expand: 'zoneRates[*].zone' } })
       .execute()
       .then((response) => response.body);
   }
