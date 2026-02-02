@@ -16,7 +16,11 @@ export class ShippingMethodsService {
   ) {}
 
   getAllShippingMethods(): Promise<ShippingMethodPagedQueryResponse> {
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .shippingMethods()
+      .get()
+      .execute()
+      .then((response) => response.body);
   }
 
   getShippingMethodByKey(key: string): Promise<ShippingMethod> {
