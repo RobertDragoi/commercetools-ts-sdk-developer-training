@@ -72,7 +72,7 @@ export class ExtensionsService {
         'en-US': 'TT Delivery Instructions',
         'en-GB': 'TT Delivery Instructions',
       },
-      resourceTypeIds: ['order'],
+      resourceTypeIds: ['order', 'customer'],
       fieldDefinitions: [
         {
           type: {

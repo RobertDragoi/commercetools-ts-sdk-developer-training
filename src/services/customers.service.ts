@@ -56,7 +56,14 @@ export class CustomersService {
       }), // Adds address and default address logic if country is provided
     };
 
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .inStoreKeyWithStoreKeyValue({ storeKey })
+      .customers()
+      .post({
+        body: customerDraft,
+      })
+      .execute()
+      .then((response) => response.body);
   }
 
   authenticateCustomer(

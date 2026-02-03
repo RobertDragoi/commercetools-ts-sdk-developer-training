@@ -33,7 +33,14 @@ export class OrdersService {
       orderNumber: orderNamePrefix + '_' + Date.now().toString(36),
     };
 
-    throw new NotImplementedException('Feature not implemented');
+    return (
+      this.apiRoot
+        //  .inStoreKeyWithStoreKeyValue({ storeKey })
+        .orders()
+        .post({ body: orderFromCartDraft })
+        .execute()
+        .then((response) => response.body)
+    );
   }
 
   async updateOrderCustomFields(
@@ -59,7 +66,15 @@ export class OrdersService {
     const orderUpdateActions: OrderUpdateAction[] = [];
     orderUpdateActions.push(updateOrderCustomFields);
 
-    throw new NotImplementedException('Feature not implemented');
+    return this.apiRoot
+      .inStoreKeyWithStoreKeyValue({ storeKey })
+      .orders()
+      .withOrderNumber({ orderNumber })
+      .post({
+        body: { version: orderVersion, actions: orderUpdateActions },
+      })
+      .execute()
+      .then((response) => response.body);
   }
 
   private getOrderByNumber(
