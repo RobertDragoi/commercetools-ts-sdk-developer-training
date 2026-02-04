@@ -9,7 +9,7 @@ import { API_ROOT } from 'src/commercetools/api-client.module';
 import { IMPORT_API_ROOT } from 'src/commercetools/import-api-client.module';
 import csvtojson from 'csvtojson';
 
-const participantNamePrefix = 'tt';
+const participantNamePrefix = 'rd';
 
 @Injectable()
 export class ImportProductsService {
@@ -22,7 +22,18 @@ export class ImportProductsService {
     const importContainerKey = participantNamePrefix + '-import-container';
     const productDrafts = await this.convertCsvToProductDrafts(csvString);
 
-    throw new NotImplementedException('Feature not implemented');
+    return this.importApiRoot
+      .productDrafts()
+      .importContainers()
+      .withImportContainerKeyValue({ importContainerKey })
+      .post({
+        body: {
+          type: 'product-draft',
+          resources: productDrafts,
+        },
+      })
+      .execute()
+      .then((response) => response.body);
   }
 
   getImportSummary(importContainerKey: string): Promise<ImportSummary> {
